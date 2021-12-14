@@ -3,28 +3,39 @@ package com.example.autoservice.company;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.Year;
 
 @Getter
 @Setter
-
+@Entity
+@Table
 public class Company {
+    @Id
+    @SequenceGenerator(
+            name = "companySequence",
+            sequenceName = "companySequence"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.AUTO,
+            generator = "companySequence"
+    )
     private Long id;
     private String name;
     private String country;
-    private Year establishedYear;
+    private Integer establishedYear;
 
     public Company() {
     }
 
-    public Company(Long id, String name, String country, Year establishedYear) {
+    public Company(Long id, String name, String country, Integer establishedYear) {
         this.id = id;
         this.name = name;
         this.country = country;
         this.establishedYear = establishedYear;
     }
 
-    public Company(String name, String country, Year establishedYear) {
+    public Company(String name, String country, Integer establishedYear) {
         this.name = name;
         this.country = country;
         this.establishedYear = establishedYear;
