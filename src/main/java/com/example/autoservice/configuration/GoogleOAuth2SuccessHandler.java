@@ -4,6 +4,7 @@ import com.example.autoservice.model.Role;
 import com.example.autoservice.model.User;
 import com.example.autoservice.repository.RoleRepository;
 import com.example.autoservice.repository.UserRepository;
+import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -43,7 +44,10 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
             roles.add(roleRepository.findById(2).get());
             user.setRoles(roles);
             userRepository.save(user);
+        } else {
+
         }
+        redirectStrategy.sendRedirect(httpServletRequest, response, "/");
     }
 
     @Override
