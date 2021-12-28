@@ -150,4 +150,32 @@ public class AdminController {
         carService.addCar(car);
         return "redirect:/admin/cars";
     }
- }
+
+    @GetMapping("/admin/car/delete/{id}")
+    public String deleteCar(@PathVariable long id) {
+        carService.removeCarById(id);
+        return "redirect:/admin/cars";
+    }
+
+    @GetMapping("/admin/car/update/{id}")
+    public String updateCar(@PathVariable long id, Model model) {
+
+        Car car = carService.getCarById(id).get();
+        CarDTO carDTO = new CarDTO();
+
+        carDTO.setId(car.getId());
+        carDTO.setModel(car.getModel());
+        carDTO.setDealerId(car.getDealer().getId());
+        carDTO.setCompanyId(car.getCompany().getId());
+        carDTO.setPrice(car.getPrice());
+        carDTO.setColor(car.getColor());
+        carDTO.setDescription(car.getDescription());
+        carDTO.setImageName(car.getImageName());
+
+        model.addAttribute("dealer", dealerService.getAllDealer());
+        model.addAttribute("company", companyService.getAllCompany());
+        model.addAttribute("carDTO", carDTO);
+
+        return "carsAdd";
+    }
+}

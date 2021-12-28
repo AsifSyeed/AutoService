@@ -45,6 +45,7 @@
             <th scope="col">Car Model</th>
             <th scope="col">Company</th>
             <th scope="col">Dealer</th>
+            <th scope="col">Price</th>
             <th scope="col">Preview</th>
             <th scope="col">Delete</th>
             <th scope="col">Update</th>
@@ -57,6 +58,7 @@
             <td th:text="${car.model}">Larry</td>
             <td th:text="${car.company.name}">Larry</td>
             <td th:text="${car.dealer.name}">Larry</td>
+            <td th:text="'$'+${car.price}">Larry</td>
             <td><img src="" height="100px" width="100px"  th:src="@{${'/carImages/' + car.imageName}}"></td>
 
             <td><a href="" th:href="@{/admin/car/delete/{id}(id=${car.id})}" class="btn btn-danger">Delete</a></td>

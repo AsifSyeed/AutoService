@@ -18,13 +18,20 @@ public class CarService {
     public void addCar(Car car) {
         carRepository.save(car);
     }
+
     public void removeCarById(long id) {
         carRepository.deleteById(id);
     }
+
     public Optional<Car> getCarById(long id) {
         return carRepository.findById(id);
     }
+
     public List<Car> getAllCarByDealerId(int id) {
         return carRepository.findAllByDealer_Id(id);
+    }
+
+    public List<Car> getAllCarByCompanyId(int id) {
+        return carRepository.findAllByCompany_Id(id);
     }
 }

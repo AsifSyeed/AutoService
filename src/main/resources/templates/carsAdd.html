@@ -39,7 +39,7 @@
     </div>
 </nav>
 <div class="container">
-    <h3>Add a new Car</h3>
+    <h3>Car Details</h3>
     <form th:action="@{/admin/cars/add}" method="post" th:object="${carDTO}" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-5">
@@ -63,7 +63,8 @@
                 <div class="form-group">
                     <label for="company">Select Company</label>
                     <select class="form-control" th:field="*{companyId}" id="company" name="company">
-                        <option th:each="company :${company}"
+
+                    <option th:each="company :${company}"
                                 th:value="${company.id}"
                                 th:text="${company.name}"
                         >
