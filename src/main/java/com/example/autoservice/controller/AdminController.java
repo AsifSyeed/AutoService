@@ -2,6 +2,7 @@ package com.example.autoservice.controller;
 
 
 import com.example.autoservice.dto.CarDTO;
+import com.example.autoservice.model.Car;
 import com.example.autoservice.model.Company;
 import com.example.autoservice.model.Dealer;
 import com.example.autoservice.service.CarService;
@@ -10,22 +11,30 @@ import com.example.autoservice.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
 
 public class AdminController {
+
     @Autowired
     DealerService dealerService;
+
     @Autowired
     CompanyService companyService;
+
     @Autowired
     CarService carService;
+
+    public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/carImages";
+
     @GetMapping("/admin")
     public String adminHome() {
         return "adminHome";
@@ -115,5 +124,30 @@ public class AdminController {
         model.addAttribute("dealer", dealerService.getAllDealer());
         model.addAttribute("company", companyService.getAllCompany());
         return "carsAdd";
+    }
+
+    @PostMapping("/admin/cars/add")
+    public String postCarsAdd(@ModelAttribute("carDTO") CarDTO carDTO,
+                              @RequestParam("carImage")MultipartFile file,
+                              @RequestParam("imgName")String imgName) throws IOException {
+        Car car = new Car();
+        car.setId(carDTO.getId());
+        car.setModel(carDTO.getModel());
+        car.setDealer(dealerService.getDealerById(carDTO.getDealerId()).get());
+        car.setCompany(companyService.getCompanyById(carDTO.getCompanyId()).get());
+        car.setPrice(carDTO.getPrice());
+        car.setColor(carDTO.getColor());
+        car.setDescription(carDTO.getDescription());
+        String imageUUID;
+        if (!file.isEmpty()) {
+            imageUUID = file.getOriginalFilename();
+            Path fileNamePath = Paths.get(uploadDir, imageUUID);
+            Files.write(fileNamePath, file.getBytes());
+        } else {
+            imageUUID = imgName;
+        }
+        car.setImageName(imageUUID);
+        carService.addCar(car);
+        return "redirect:/admin/cars";
     }
  }

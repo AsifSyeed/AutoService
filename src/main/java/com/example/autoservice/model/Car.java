@@ -1,7 +1,10 @@
 package com.example.autoservice.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 @Entity
+@Data
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +19,8 @@ public class Car {
     private Company company;
     private String color;
     private double price;
+    @Column(length = 2048)
     private String description;
+    @Column(length = 2048)
     private String imageName;
 }
