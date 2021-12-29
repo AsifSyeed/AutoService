@@ -43,10 +43,10 @@
                     <a class="nav-link" href="#" sec:authorize="isAuthenticated()" th:href="@{/logout}">logout</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" th:href="@{/cart}">cart</a>
+                    <a class="nav-link" href="#" th:href="@{/booking}">Booking</a>
                 </li>
                 <li class="nav-item active">
-                    <span class="nav-link" th:text="${cartCount}"></span>
+                    <span class="nav-link" th:text="${bookingCount}"></span>
                 </li>
             </ul>
 
@@ -68,7 +68,7 @@
                 <spna th:text="${car.color}"></spna>
             </h5>
             <p th:text="${car.description}"></p>
-            <a class="btn btn-primary" href="" th:href="@{/addToCart/{id}(id = ${car.id})}">Add to cart</a>
+            <a class="btn btn-primary" href="" th:href="@{/carBooking/{id}(id = ${car.id})}">Book your Car</a>
         </div>
     </div>
 </div>

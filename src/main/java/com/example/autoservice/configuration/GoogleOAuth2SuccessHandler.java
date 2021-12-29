@@ -25,17 +25,21 @@ import java.util.List;
 
 @Component
 public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler {
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     @Autowired
     RoleRepository roleRepository;
     @Autowired
     UserRepository userRepository;
 
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         String email = token.getPrincipal().getAttributes().get("email").toString();
-        if (!userRepository.findUserByEmail(email).isPresent()) {
+        if (userRepository.findUserByEmail(email).isPresent()) {
+
+        } else {
             User user = new User();
             user.setFirstName(token.getPrincipal().getAttributes().get("given_name").toString());
             user.setLastName(token.getPrincipal().getAttributes().get("family_name").toString());
@@ -44,8 +48,6 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
             roles.add(roleRepository.findById(2).get());
             user.setRoles(roles);
             userRepository.save(user);
-        } else {
-
         }
         redirectStrategy.sendRedirect(httpServletRequest, response, "/");
     }
