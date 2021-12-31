@@ -3,6 +3,9 @@ package com.example.autoservice.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 public class Car {
@@ -23,4 +26,16 @@ public class Car {
     private String description;
     @Column(length = 2048)
     private String imageName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "bookedByUser",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id")
+    )
+    private Set<User> bookedByUsers = new HashSet<>();
+
+    public void setUser(User user) {
+        bookedByUsers.add(user);
+    }
 }

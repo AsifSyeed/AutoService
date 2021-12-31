@@ -9,4 +9,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllByDealer_Id(int id);
 
     List<Car> findAllByCompany_Id(int id);
+
+
 }

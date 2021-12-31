@@ -1,10 +1,12 @@
 package com.example.autoservice.controller;
 
 import com.example.autoservice.global.GlobalData;
+import com.example.autoservice.model.User;
 import com.example.autoservice.service.CarService;
 import com.example.autoservice.service.CompanyService;
 import com.example.autoservice.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +23,8 @@ public class HomeController {
     @Autowired
     CarService carService;
 
-    @GetMapping({"/", "/home"})
-    public String home(Model model) {
 
-        model.addAttribute("bookingCount", GlobalData.booking.size());
-        return "index";
-    }
-
-    @GetMapping("/shop")
+    @GetMapping({"/", "/home", "/shop"})
     public String shop(Model model) {
         model.addAttribute("dealer", dealerService.getAllDealer());
         model.addAttribute("company", companyService.getAllCompany());
@@ -58,8 +54,13 @@ public class HomeController {
     public String viewCar(Model model, @PathVariable int id) {
         model.addAttribute("car", carService.getCarById(id).get());
         model.addAttribute("bookingCount", GlobalData.booking.size());
+        User user = getLoggedInUser();
+        model.addAttribute("user", user);
         return "viewCar";
     }
 
-    //Book count
+    private User getLoggedInUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user;
+    }
 }

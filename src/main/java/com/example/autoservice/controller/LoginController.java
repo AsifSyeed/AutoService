@@ -1,5 +1,6 @@
 package com.example.autoservice.controller;
 
+import com.example.autoservice.global.GlobalData;
 import com.example.autoservice.model.Role;
 import com.example.autoservice.model.User;
 import com.example.autoservice.repository.RoleRepository;
@@ -27,6 +28,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
+        GlobalData.booking.clear();
         return "login";
     }
 

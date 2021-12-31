@@ -1,6 +1,7 @@
 package com.example.autoservice.service;
 
 import com.example.autoservice.model.Car;
+import com.example.autoservice.model.User;
 import com.example.autoservice.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,5 @@ public class CarService {
     public List<Car> getAllCarByCompanyId(int id) {
         return carRepository.findAllByCompany_Id(id);
     }
+
 }
